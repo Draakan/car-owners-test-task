@@ -1,0 +1,54 @@
+.form-container {
+  width: 20rem;
+  
+  .p-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    margin-bottom: .5rem;
+  }
+}
+
+.form-container-car {
+  width: 30rem;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  
+  input {
+    width: 6rem;
+    margin-right: .5rem;
+  }
+  
+  .labels {
+    label:nth-child(2) {
+      margin-left: 3.8rem;
+    }
+    
+    label:nth-child(3) {
+      margin-left: 3.8rem;
+    }
+    
+    label:nth-child(4) {
+      margin-left: 3.2rem;
+    }
+  }
+  
+  .inputs {
+    margin-bottom: .5rem;
+  }
+}
+
+.flex-column-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.buttons {
+  margin-top: 1rem;
+  
+  button:first-child {
+    margin-right: .5rem;
+  }
+}

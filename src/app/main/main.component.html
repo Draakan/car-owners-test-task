@@ -1,0 +1,33 @@
+<h2>Власники автомобілів</h2>
+
+<div class="buttons">
+  <button (click)="addNewOwner()" pButton type="button" label="Добавити" icon="pi pi-plus"></button>
+  <button (click)="viewOwner()" [disabled]="!selectedOwner" pButton type="button" label="Перегляд"  icon="pi pi-eye"></button>
+  <button (click)="editOwner()" [disabled]="!selectedOwner" pButton type="button" label="Редагувати" icon="pi pi-user-edit"></button>
+  <button (click)="deleteOwner()" [disabled]="!selectedOwner" pButton type="button" label="Видалити" icon="pi pi-trash"></button>
+</div>
+
+<p-progressSpinner *ngIf="isLoading; else table"></p-progressSpinner>
+
+<div class="no-data" *ngIf="!owners.length && !isLoading;">Немає даних</div>
+
+<ng-template #table>
+  <p-table [value]="owners" selectionMode="single" [(selection)]="selectedOwner">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Прізвище</th>
+        <th>Ім*я</th>
+        <th>По батькові</th>
+        <th>Кількість автомобілів</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-owner>
+      <tr [pSelectableRow]="owner">
+        <td>{{ owner.lastName }}</td>
+        <td>{{ owner.firstName }}</td>
+        <td>{{ owner.middleName }}</td>
+        <td>{{ owner.cars.length }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</ng-template>

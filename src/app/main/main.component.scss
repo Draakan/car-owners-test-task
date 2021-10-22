@@ -1,0 +1,15 @@
+.buttons {
+  margin-bottom: 1rem;
+  
+  button {
+    margin-left: .3rem;
+  }
+  
+  button:first-child {
+    margin-right: 1rem;
+  }
+}
+
+.no-data {
+  text-align: center;
+}

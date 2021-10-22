@@ -1,0 +1,83 @@
+<p-progressSpinner *ngIf="isLoading; else content"></p-progressSpinner>
+<p-toast></p-toast>
+
+<ng-template #content>
+  <form [formGroup]="form">
+    <div class="form-container">
+      <div class="p-field">
+        <label for="lastName">Прізвище</label>
+        <div class="flex-column-container">
+          <input id="lastName" formControlName="lastName" type="text" pInputText/>
+          <ng-container *ngIf="form.get('lastName')?.invalid && form.get('lastName')?.dirty">
+            <small *ngIf="form.get('lastName')?.errors?.required" class="p-error">Прізвище не може бути пустим</small>
+          </ng-container>
+        </div>
+      </div>
+      <div class="p-field">
+        <label for="firstName">Ім*я</label>
+        <div class="flex-column-container">
+          <input id="firstName" formControlName="firstName" type="text" pInputText/>
+          <ng-container *ngIf="form.get('firstName')?.invalid && form.get('firstName')?.dirty">
+            <small *ngIf="form.get('firstName')?.errors?.required" class="p-error">Ім*я не може бути пустим</small>
+          </ng-container>
+        </div>
+      </div>
+      <div class="p-field">
+        <label for="middleName">По батькові</label>
+        <div class="flex-column-container">
+          <input id="middleName" formControlName="middleName" type="text" pInputText/>
+          <ng-container *ngIf="form.get('middleName')?.invalid && form.get('middleName')?.dirty">
+            <small *ngIf="form.get('middleName')?.errors?.required" class="p-error">По батькові не може бути пустим</small>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    
+    <ng-container *ngIf="getCarFormControls()['controls']['length']">
+      <h2>Автомобілі</h2>
+      
+      <div class="form-container-car">
+        <div class="labels">
+          <label>Номер</label>
+          <label>Марка</label>
+          <label>Модель</label>
+          <label>Рік</label>
+        </div>
+        <div formArrayName="cars" *ngFor="let car of getCarFormControls()['controls']; let i = index;" class="inputs">
+          <div [formGroupName]="i">
+            <input type="text" pInputText formControlName="stateNumber"/>
+            <input type="text" pInputText formControlName="producer"/>
+            <input type="text" pInputText formControlName="model"/>
+            <input type="number" pInputText formControlName="year"/>
+
+            <button *ngIf="!isDisabled" (click)="deleteCar(i)" style="align-self: end;" pButton pRipple icon="pi pi-trash" class="p-button-danger"></button>
+          </div>
+          <ng-container *ngIf="car.get('stateNumber')?.invalid && car.get('stateNumber')?.dirty">
+            <div *ngIf="car.get('stateNumber')?.errors?.forbiddenCarStateNumber" class="p-error">Такий номер вже існує</div>
+            <div *ngIf="car.get('stateNumber')?.errors?.required" class="p-error">Номер не може бути пустим</div>
+            <div *ngIf="car.get('stateNumber')?.errors?.pattern" class="p-error">Номер має бути у форматі XX0000XX</div>
+          </ng-container>
+          <ng-container *ngIf="car.get('producer')?.invalid && car.get('producer')?.dirty">
+            <div *ngIf="car.get('producer')?.errors?.required" class="p-error">Марка не може бути пустою</div>
+          </ng-container>
+          <ng-container *ngIf="car.get('model')?.invalid && car.get('model')?.dirty">
+            <div *ngIf="car.get('model')?.errors?.required" class="p-error">Модель не може бути пустою</div>
+          </ng-container>
+          <ng-container *ngIf="car.get('year')?.invalid && car.get('year')?.dirty">
+            <div *ngIf="car.get('year')?.errors?.required" class="p-error">Рік не може бути пустим</div>
+            <div *ngIf="car.get('year')?.errors?.min" class="p-error">Рік має бути більшим або рівним 1990</div>
+            <div *ngIf="car.get('year')?.errors?.max" class="p-error">Рік має бути меншим або рівним поточному році</div>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </form>
+  
+  <button *ngIf="!isDisabled" (click)="addNewCar()" pButton label="Додати автомобіль" icon="pi pi-plus"></button>
+  
+  <div class="buttons">
+    <button *ngIf="!isDisabled" [disabled]="form.invalid || isTheSame" (click)="addOrEditNewOwner()" pButton label="Зберегти" icon="pi pi-save"></button>
+    <button routerLink="/" class="p-button-secondary" pButton label="Назад" icon="pi pi-arrow-circle-left"></button>
+  </div>
+</ng-template>
+
